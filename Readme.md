@@ -1,6 +1,8 @@
 Hierarchy Data Model
 ===
 
+[![Build Status](https://travis-ci.org/AppWorkshop/hierarchy-model.svg?branch=master)](https://travis-ci.org/AppWorkshop/hierarchy-model)
+
 This is a data model for a hierarchy or tree, used by roles-hierarchy and permissions-hierarchy.
 
 Given a definition of a hierarchy :
