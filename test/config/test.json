@@ -1,0 +1,127 @@
+{
+  "hierarchyConfig": {
+    "loggingConfig": {
+      "level": "info",
+      "timestamp": true,
+      "colorize": true
+    },
+    "treeModelConfig": {
+      "childrenPropertyName": "children"
+    },
+    "hierarchy": {
+      "name": "Animalia",
+      "children": [
+        {
+          "name": "Chordate",
+          "children": [
+            {
+              "name": "Mammal",
+              "children": [
+                {
+                  "name": "Primate",
+                  "children": [
+                    {
+                      "name": "Hominidae",
+                      "children": [
+                        {
+                          "name": "Homo",
+                          "children": [
+                            {
+                              "name": "Sapiens",
+                              "children": [
+                                {
+                                  "name": "Human"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "Pongidae",
+                      "children": [
+                        {
+                          "name": "Pan",
+                          "children": [
+                            {
+                              "name": "Troglodytes",
+                              "children": [
+                                {
+                                  "name": "Chimpanzee"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "Carnivora",
+                  "children": [
+                    {
+                      "name": "Felidae",
+                      "children": [
+                        {
+                          "name": "Felis",
+                          "children": [
+                            {
+                              "name": "Domestica",
+                              "children": [
+                                {
+                                  "name": "House Cat"
+                                }
+                              ]
+                            },
+                            {
+                              "name": "Leo",
+                              "children": [
+                                {
+                                  "name": "Lion"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Arthropoda",
+          "children": [
+            {
+              "name": "Insect",
+              "children": [
+                {
+                  "name": "Diptera",
+                  "children": [
+                    {
+                      "name": "Muscidae",
+                      "children": [
+                        {
+                          "name": "Musca",
+                          "children": [
+                            {
+                              "name": "Domestica"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
