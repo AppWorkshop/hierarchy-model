@@ -8,10 +8,10 @@
     "test": "NODE_CONFIG_DIR=test/config NODE_ENV=test mocha --require babel-register"
   },
   "author": "Mike Cunneen",
-  "homepage": "https://github.com/AppWorkshop/hierarchy",
+  "homepage": "https://github.com/AppWorkshop/hierarchy-model",
   "repository": {
     "type": "git",
-    "url": "https://github.com/AppWorkshop/hierarchy"
+    "url": "https://github.com/AppWorkshop/hierarchy-model"
   },
   "license": "ISC",
   "dependencies": {
