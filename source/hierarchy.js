@@ -10,8 +10,8 @@ class Hierarchy {
    * create a new instance of Hierarchy
    * @param {Object} paramsObj containing a Hierarchy and a loggingConfig (optional) and a TreeModel config (optional):
    * {
-   *   hierarchy: {"name":"teacher", "subordinates": [ {"name":"student"} ]},
-   *   treeModelConfig: { "childrenPropertyName": "subordinates" },
+   *   hierarchy: {"name":"teacher", "children": [ {"name":"student"} ]},
+   *   treeModelConfig: { "childrenPropertyName": "children" },
    *   loggingConfig: { "level": "debug"}
    * }
    */
@@ -24,7 +24,7 @@ class Hierarchy {
       "colorize": true
     };
 
-    let treeModelConfig = paramsObj.treeModelConfig || { "childrenPropertyName": "subordinates" };
+    let treeModelConfig = paramsObj.treeModelConfig || { "childrenPropertyName": "children" };
 
     this.logger = new (winston.Logger)({
       transports: [
@@ -41,7 +41,7 @@ class Hierarchy {
     treeModelConfig = JSON.parse(JSON.stringify(treeModelConfig));
     this.treeModel = new TreeModel(treeModelConfig);
     this.root = this.treeModel.parse(paramsObj.hierarchy);
-    this.logger.debug(this.getTopiaryAsString(this.root.model));
+    this.logger.debug(this.getTopiaryAsString());
   }
 
   /**
@@ -77,9 +77,9 @@ class Hierarchy {
   }
 
   /**
-   * Find a node in the hierarchy by name
+   * Find the model for a node in the hierarchy, by name
    * @param {string} nodeName - the name of the node to find (i.e. 'name' property value)
-   * @returns {*} - the node in the tree that matches
+   * @returns {object} - the model of the node in the tree that matches
    */
   findNodeInHierarchy(nodeName, startNode) {
     let result = this._findNode(nodeName, startNode);
@@ -88,7 +88,15 @@ class Hierarchy {
       return result.model;
     }
     this.logger.debug(`findNodeInHierarchy(${nodeName}) => returning undefined`);
+  }
 
+  /**
+   * Find the node object for a node in the hierarchy, by name
+   * @param {string} nodeName - the name of the node to find (i.e. 'name' property value)
+   * @param {object} startNode - the node in the hierarchy to start from
+   */
+  findNodeObj(nodeName, startNode) {
+    return this._findNode(nodeName, startNode);
   }
 
   /**
@@ -130,8 +138,81 @@ class Hierarchy {
     return result;
   }
 
+  /**
+   * get a string suitable for printing, via the topiary library.
+   * @param {object} hierarchy - a Hierarchy instance
+   * @returns {string} a string representation of the hierarchy
+   */
   getTopiaryAsString(hierarchy = this.root) {
-    return topiary(hierarchy, this.childrenPropertyName);
+    return topiary(hierarchy.model, this.childrenPropertyName);
+  }
+
+  /**
+   * Process each node in the tree via a callback, halting when your callback returns false.
+   * @param {function} callback a function that takes a single parameter, 'node', 
+   * which is the value of the node currently being processed. Return false from the callback to halt the traversal.
+   */
+  walkNodes(callback) {
+    this.root.walk(callback);
+  }
+
+  /**
+   * Add a child to a parent.
+   * @param {Object} parentNode the node in the hierarchy to which the child should be added
+   * @param {Object} childNode a node or tree
+   * @returns {Object} the child node.
+   */
+  addNodeAsChildOfNode(parentNode, childNode) {
+    let debug = this.logger.debug;
+    debug(`parentNode: ${JSON.stringify(parentNode.model)}`);
+    debug(`childNode: ${JSON.stringify(childNode.model)}`);
+    return parentNode.addChild(childNode);
+  }
+
+  /**
+   * Get the array of Nodes representing the path from the root to this Node (inclusive).
+   * @param {Object} node 
+   * @returns {Object} the array of Nodes representing the path from the root to this Node (inclusive).
+   */
+  getPathOfNode(node) {
+    return node.getPath();
+  }
+
+
+  /**
+   * Get the array of Node names representing the path from the root to this Node (inclusive).
+   * @param {Object} node 
+   * @returns {Array<String>} the array of Strings representing the path from the root to this Node (inclusive).
+   */
+  getNamesOfNodePath(node) {
+    return _.map(node.getPath(), (thisNode) => {
+      return thisNode.model.name;
+    });
+  }  
+
+  /**
+   * Drop the subtree starting at this node. Returns the node itself, which is now a root node.
+   * @param {Object} node the node in the hierarchy to drop.
+   * @returns {Object} node the node that just got dropped.
+   */
+  deleteNodeFromHierarchy(node) {
+    return node.drop();
+  }
+
+  /**
+   * get the underlying TreeModel instance
+   * @returns {Object} the underlying TreeModel instance.
+   */
+  getTreeModel() {
+    return this.treeModel;
+  }
+
+  /**
+   * Create Node (which is itself just a TreeModel)
+   * @param {Object} an object which has a name and children
+   */
+  getNewNode(paramsObj) {
+    return this.treeModel.parse(paramsObj);
   }
 }
 
