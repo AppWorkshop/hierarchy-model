@@ -1,10 +1,13 @@
-const winston = require('winston');
-process.env.SUPPRESS_NO_CONFIG_WARNING = 'y';
-const TreeModel = require('tree-model');
-const topiary = require('topiary');
-const _ = require('underscore');
+"use strict";
+import TreeModel from 'tree-model';
+import topiary from 'topiary';
+import _ from 'underscore';
 
-class Hierarchy {
+if (process) {
+  process.env.SUPPRESS_NO_CONFIG_WARNING = 'y';
+}
+
+export default class Hierarchy {
 
   /**
    * create a new instance of Hierarchy
@@ -12,25 +15,15 @@ class Hierarchy {
    * {
    *   hierarchy: {"name":"teacher", "children": [ {"name":"student"} ]},
    *   treeModelConfig: { "childrenPropertyName": "children" },
-   *   loggingConfig: { "level": "debug"}
+   *   loggerCallback: an object that has debug, info, warn and error properties whose values are logging functions.
    * }
    */
   constructor(paramsObj) {
 
     // set up config defaults
-    let loggingConfig = paramsObj.loggingConfig || {
-      "level": "debug",
-      "timestamp": true,
-      "colorize": true
-    };
-
     let treeModelConfig = paramsObj.treeModelConfig || { "childrenPropertyName": "children" };
 
-    this.logger = new (winston.Logger)({
-      transports: [
-        new (winston.transports.Console)(loggingConfig)
-      ]
-    });
+    this.logger = paramsObj.loggerCallback || {debug: (msg)=>{}, info: (msg)=>{}, warn: (msg)=>{}, error: (msg, err)=>{}};
 
     this.childrenPropertyName = treeModelConfig.childrenPropertyName;
 
@@ -93,7 +86,7 @@ class Hierarchy {
   /**
    * Find the node object for a node in the hierarchy, by name
    * @param {string} nodeName - the name of the node to find (i.e. 'name' property value)
-   * @param {object} startNode - the node in the hierarchy to start from
+   * @param {object} [startNode] - the node in the hierarchy to start from
    */
   findNodeObj(nodeName, startNode) {
     return this._findNode(nodeName, startNode);
@@ -103,6 +96,7 @@ class Hierarchy {
    * Return the descendent node of the given nodeName if found.
    * @param {string} nodeName - the name of the node underneath which we should search
    * @param {string} descendantNodeName - the name of the descendant node to find
+   * @param {object} [startNode] - the node in the hierarchy to start from
    * @returns {object} - the node of the descendant, or undefined or false if not found.
    */
   findDescendantNodeByName(nodeName, descendantNodeName, startNode) {
@@ -123,6 +117,7 @@ class Hierarchy {
   /**
    * Get the names of subordinate nodes as an array
    * @param {string} nodeName - the name of the senior node i.e. 'name' property value
+   * @param {object} [startNode] - the node in the hierarchy to start from
    * @returns {Array} - the subordinate node names if any, otherwise undefined.
    */
   getAllDescendantNodesAsArray(nodeName, startNode) {
@@ -174,7 +169,7 @@ class Hierarchy {
    * @param {Object} node 
    * @returns {Object} the array of Nodes representing the path from the root to this Node (inclusive).
    */
-  getPathOfNode(node) {
+  static getPathOfNode(node) {
     return node.getPath();
   }
 
@@ -184,7 +179,7 @@ class Hierarchy {
    * @param {Object} node 
    * @returns {Array<String>} the array of Strings representing the path from the root to this Node (inclusive).
    */
-  getNamesOfNodePath(node) {
+  static getNamesOfNodePath(node) {
     return _.map(node.getPath(), (thisNode) => {
       return thisNode.model.name;
     });
@@ -195,7 +190,7 @@ class Hierarchy {
    * @param {Object} node the node in the hierarchy to drop.
    * @returns {Object} node the node that just got dropped.
    */
-  deleteNodeFromHierarchy(node) {
+  static deleteNodeFromHierarchy(node) {
     return node.drop();
   }
 
@@ -209,11 +204,9 @@ class Hierarchy {
 
   /**
    * Create Node (which is itself just a TreeModel)
-   * @param {Object} an object which has a name and children
+   * @param {Object} paramsObj - an object which has 'name' and 'children' properties
    */
   getNewNode(paramsObj) {
     return this.treeModel.parse(paramsObj);
   }
 }
-
-module.exports = Hierarchy;

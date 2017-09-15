@@ -1,19 +1,33 @@
 
-const assert = require('assert');
-const config = require('config');
-import Hierarchy from '..';
+import assert from 'assert';
+import config from 'config';
+import Hierarchy from '../distribution/hierarchy';
+
+let whichconfig = config || new function(){
+  this.getDescendantProp = (obj, desc) => {
+    var arr = desc.split(".");
+    while(arr.length && (obj = obj[arr.shift()]));
+    return obj;
+  };
+
+  this.confJSON = require('../test/config/test.json');
+
+  this.get = (key) => {
+    return this.getDescendantProp(this.confJSON, key);
+  }
+}();
+
+let hierarchyOpts = {
+  "hierarchy": whichconfig.get("hierarchyConfig.hierarchy"),
+  "treeModelConfig": whichconfig.get("hierarchyConfig.treeModelConfig"),
+  "loggerCallback": {debug: (msg)=>{console.log(`DEBUG: ${msg}`);}, info: (msg)=>{console.log(`INFO: ${msg}`);}, warn: (msg)=>{console.warn(msg);}, error: (msg, err)=>{console.error(msg, err);}}
+};
 
 describe('Hierarchy', function () {
   let hierarchy;
 
   it('get a new Hierarchy', function (done) {
-    hierarchy = new Hierarchy(
-      {
-        "hierarchy": config.get("hierarchyConfig.hierarchy"),
-        "loggingConfig": config.get("hierarchyConfig.loggingConfig"),
-        "treeModelConfig": config.get("hierarchyConfig.treeModelConfig")
-      }
-    );
+    hierarchy = new Hierarchy(hierarchyOpts);
     assert.ok(hierarchy);
     done();
   });
@@ -39,43 +53,37 @@ describe('Hierarchy', function () {
     done();
   });
 
-  it('getTopiaryAsString', function (done) {
-    let topiary = hierarchy.getTopiaryAsString();
-    let indexOfCat = topiary.indexOf("Domestica");
-    assert.equal(indexOfCat,288,"Domestica wasn't where we expected.");
-    console.log(topiary);
+  it('getPathOfNode', function (done) {
+    let humanNode = hierarchy.findNodeObj("Human");
+    let arrayOfNodes = Hierarchy.getNamesOfNodePath(humanNode);
+    console.log(arrayOfNodes);
+    assert.deepEqual(arrayOfNodes, [ 'Animalia', 'Chordate', 'Mammal', 'Primate', 'Hominidae', 'Homo', 'Sapiens','Human' ],
+      "Unexpected node path");
     done();
-  });  
+  });
 
   it('addNodeAsChildOfNode', function (done) {
     let human = hierarchy.findNodeObj("Human");
     let mutantsNode = hierarchy.getNewNode({name: "Mutants", children: [{name: "Alpha Mutants"},{name: "Omega Mutants"}]});
     hierarchy.addNodeAsChildOfNode(human,mutantsNode);
-    let topiary = hierarchy.getTopiaryAsString();
-    let indexOfAlpha = topiary.indexOf("Alpha Mutants");
-    console.log(topiary);
-    assert.equal(indexOfAlpha, 178, "Alpha Mutants wasn't where we expected.")
+    let alphaMutantsNode = hierarchy.findNodeObj("Alpha Mutants");
+    assert.ok(alphaMutantsNode);
+    let arrayOfNodes = Hierarchy.getNamesOfNodePath(alphaMutantsNode);
+    let indexOfAlpha = arrayOfNodes.indexOf("Alpha Mutants");
+    console.log(`indexOfAlpha: ${indexOfAlpha}`);
+    assert.equal(indexOfAlpha, 9, "Alpha Mutants wasn't where we expected.");
     done();
-  });  
+  });
 
   it('deleteNodeFromHierarchy', function (done) {
     let mutantsNode = hierarchy.findNodeObj("Mutants");
-    hierarchy.deleteNodeFromHierarchy(mutantsNode);
+    Hierarchy.deleteNodeFromHierarchy(mutantsNode);
     let topiary = hierarchy.getTopiaryAsString();
     let indexOfMutants = topiary.indexOf("Mutants");
     console.log(topiary);
     assert.equal(indexOfMutants, -1, "Was expecting mutants to not be found.");
     done();
   });
-
-  it('getPathOfNode', function (done) {
-    let humanNode = hierarchy.findNodeObj("Human");
-    let arrayOfNodes = hierarchy.getNamesOfNodePath(humanNode);
-    console.log(arrayOfNodes);
-    assert.deepEqual(arrayOfNodes, [ 'Animalia', 'Chordate', 'Mammal', 'Primate', 'Hominidae', 'Homo', 'Sapiens','Human' ], 
-      "Unexpected node path");
-    done();
-  });  
 
 });
 

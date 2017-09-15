@@ -89,188 +89,199 @@ To run the tests, simply :
 
 Docs generated with jsdoc2md.
 
-<a name="Hierarchy"></a>
+## Functions
 
-## Hierarchy
-**Kind**: global class
+<dl>
+<dt><a href="#reparse">reparse(hierarchy)</a></dt>
+<dd><p>re-create the hierarchy with a new object structure.</p>
+</dd>
+<dt><a href="#findNodeInHierarchy">findNodeInHierarchy(nodeName)</a> ⇒ <code>object</code></dt>
+<dd><p>Find the model for a node in the hierarchy, by name</p>
+</dd>
+<dt><a href="#findNodeObj">findNodeObj(nodeName, [startNode])</a></dt>
+<dd><p>Find the node object for a node in the hierarchy, by name</p>
+</dd>
+<dt><a href="#findDescendantNodeByName">findDescendantNodeByName(nodeName, descendantNodeName, [startNode])</a> ⇒ <code>object</code></dt>
+<dd><p>Return the descendent node of the given nodeName if found.</p>
+</dd>
+<dt><a href="#getAllDescendantNodesAsArray">getAllDescendantNodesAsArray(nodeName, [startNode])</a> ⇒ <code>Array</code></dt>
+<dd><p>Get the names of subordinate nodes as an array</p>
+</dd>
+<dt><a href="#getTopiaryAsString">getTopiaryAsString(hierarchy)</a> ⇒ <code>string</code></dt>
+<dd><p>get a string suitable for printing, via the topiary library.</p>
+</dd>
+<dt><a href="#walkNodes">walkNodes(callback)</a></dt>
+<dd><p>Process each node in the tree via a callback, halting when your callback returns false.</p>
+</dd>
+<dt><a href="#addNodeAsChildOfNode">addNodeAsChildOfNode(parentNode, childNode)</a> ⇒ <code>Object</code></dt>
+<dd><p>Add a child to a parent.</p>
+</dd>
+<dt><a href="#getPathOfNode">getPathOfNode(node)</a> ⇒ <code>Object</code></dt>
+<dd><p>Get the array of Nodes representing the path from the root to this Node (inclusive).</p>
+</dd>
+<dt><a href="#getNamesOfNodePath">getNamesOfNodePath(node)</a> ⇒ <code>Array.&lt;String&gt;</code></dt>
+<dd><p>Get the array of Node names representing the path from the root to this Node (inclusive).</p>
+</dd>
+<dt><a href="#deleteNodeFromHierarchy">deleteNodeFromHierarchy(node)</a> ⇒ <code>Object</code></dt>
+<dd><p>Drop the subtree starting at this node. Returns the node itself, which is now a root node.</p>
+</dd>
+<dt><a href="#getTreeModel">getTreeModel()</a> ⇒ <code>Object</code></dt>
+<dd><p>get the underlying TreeModel instance</p>
+</dd>
+<dt><a href="#getNewNode">getNewNode(paramsObj)</a></dt>
+<dd><p>Create Node (which is itself just a TreeModel)</p>
+</dd>
+</dl>
 
-<a name="Hierarchy"></a>
+<a name="reparse"></a>
 
-## Hierarchy
-**Kind**: global class
-
-* [Hierarchy](#Hierarchy)
-    * [new Hierarchy(paramsObj)](#new_Hierarchy_new)
-    * [.reparse(hierarchy)](#Hierarchy+reparse)
-    * [.findNodeInHierarchy(nodeName)](#Hierarchy+findNodeInHierarchy) ⇒ <code>object</code>
-    * [.findNodeObj(nodeName, startNode)](#Hierarchy+findNodeObj)
-    * [.findDescendantNodeByName(nodeName, descendantNodeName)](#Hierarchy+findDescendantNodeByName) ⇒ <code>object</code>
-    * [.getAllDescendantNodesAsArray(nodeName)](#Hierarchy+getAllDescendantNodesAsArray) ⇒ <code>Array</code>
-    * [.getTopiaryAsString(hierarchy)](#Hierarchy+getTopiaryAsString) ⇒ <code>string</code>
-    * [.walkNodes(callback)](#Hierarchy+walkNodes)
-    * [.addNodeAsChildOfNode(parentNode, childNode)](#Hierarchy+addNodeAsChildOfNode) ⇒ <code>Object</code>
-    * [.getPathOfNode(node)](#Hierarchy+getPathOfNode) ⇒ <code>Object</code>
-    * [.getNamesOfNodePath(node)](#Hierarchy+getNamesOfNodePath) ⇒ <code>Array.&lt;String&gt;</code>
-    * [.deleteNodeFromHierarchy(node)](#Hierarchy+deleteNodeFromHierarchy) ⇒ <code>Object</code>
-    * [.getTreeModel()](#Hierarchy+getTreeModel) ⇒ <code>Object</code>
-    * [.getNewNode(an)](#Hierarchy+getNewNode)
-
-<a name="new_Hierarchy_new"></a>
-
-### new Hierarchy(paramsObj)
-create a new instance of Hierarchy
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| paramsObj | <code>Object</code> | containing a Hierarchy and a loggingConfig (optional) and a TreeModel config (optional): {   hierarchy: {"name":"teacher", "children": [ {"name":"student"} ]},   treeModelConfig: { "childrenPropertyName": "children" },   loggingConfig: { "level": "debug"} } |
-
-<a name="Hierarchy+reparse"></a>
-
-### hierarchy.reparse(hierarchy)
+## reparse(hierarchy)
 re-create the hierarchy with a new object structure.
 
-**Kind**: instance method of [<code>Hierarchy</code>](#Hierarchy)
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
-| hierarchy | <code>Object</code> |
+| hierarchy | <code>Object</code> | 
 
-<a name="Hierarchy+findNodeInHierarchy"></a>
+<a name="findNodeInHierarchy"></a>
 
-### hierarchy.findNodeInHierarchy(nodeName) ⇒ <code>object</code>
+## findNodeInHierarchy(nodeName) ⇒ <code>object</code>
 Find the model for a node in the hierarchy, by name
 
-**Kind**: instance method of [<code>Hierarchy</code>](#Hierarchy)
-**Returns**: <code>object</code> - - the model of the node in the tree that matches
+**Kind**: global function  
+**Returns**: <code>object</code> - - the model of the node in the tree that matches  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | nodeName | <code>string</code> | the name of the node to find (i.e. 'name' property value) |
 
-<a name="Hierarchy+findNodeObj"></a>
+<a name="findNodeObj"></a>
 
-### hierarchy.findNodeObj(nodeName, startNode)
+## findNodeObj(nodeName, [startNode])
 Find the node object for a node in the hierarchy, by name
 
-**Kind**: instance method of [<code>Hierarchy</code>](#Hierarchy)
+**Kind**: global function  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | nodeName | <code>string</code> | the name of the node to find (i.e. 'name' property value) |
-| startNode | <code>object</code> | the node in the hierarchy to start from |
+| [startNode] | <code>object</code> | the node in the hierarchy to start from |
 
-<a name="Hierarchy+findDescendantNodeByName"></a>
+<a name="findDescendantNodeByName"></a>
 
-### hierarchy.findDescendantNodeByName(nodeName, descendantNodeName) ⇒ <code>object</code>
+## findDescendantNodeByName(nodeName, descendantNodeName, [startNode]) ⇒ <code>object</code>
 Return the descendent node of the given nodeName if found.
 
-**Kind**: instance method of [<code>Hierarchy</code>](#Hierarchy)
-**Returns**: <code>object</code> - - the node of the descendant, or undefined or false if not found.
+**Kind**: global function  
+**Returns**: <code>object</code> - - the node of the descendant, or undefined or false if not found.  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | nodeName | <code>string</code> | the name of the node underneath which we should search |
 | descendantNodeName | <code>string</code> | the name of the descendant node to find |
+| [startNode] | <code>object</code> | the node in the hierarchy to start from |
 
-<a name="Hierarchy+getAllDescendantNodesAsArray"></a>
+<a name="getAllDescendantNodesAsArray"></a>
 
-### hierarchy.getAllDescendantNodesAsArray(nodeName) ⇒ <code>Array</code>
+## getAllDescendantNodesAsArray(nodeName, [startNode]) ⇒ <code>Array</code>
 Get the names of subordinate nodes as an array
 
-**Kind**: instance method of [<code>Hierarchy</code>](#Hierarchy)
-**Returns**: <code>Array</code> - - the subordinate node names if any, otherwise undefined.
+**Kind**: global function  
+**Returns**: <code>Array</code> - - the subordinate node names if any, otherwise undefined.  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | nodeName | <code>string</code> | the name of the senior node i.e. 'name' property value |
+| [startNode] | <code>object</code> | the node in the hierarchy to start from |
 
-<a name="Hierarchy+getTopiaryAsString"></a>
+<a name="getTopiaryAsString"></a>
 
-### hierarchy.getTopiaryAsString(hierarchy) ⇒ <code>string</code>
+## getTopiaryAsString(hierarchy) ⇒ <code>string</code>
 get a string suitable for printing, via the topiary library.
 
-**Kind**: instance method of [<code>Hierarchy</code>](#Hierarchy)
-**Returns**: <code>string</code> - a string representation of the hierarchy
+**Kind**: global function  
+**Returns**: <code>string</code> - a string representation of the hierarchy  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | hierarchy | <code>object</code> | a Hierarchy instance |
 
-<a name="Hierarchy+walkNodes"></a>
+<a name="walkNodes"></a>
 
-### hierarchy.walkNodes(callback)
+## walkNodes(callback)
 Process each node in the tree via a callback, halting when your callback returns false.
 
-**Kind**: instance method of [<code>Hierarchy</code>](#Hierarchy)
+**Kind**: global function  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | callback | <code>function</code> | a function that takes a single parameter, 'node',  which is the value of the node currently being processed. Return false from the callback to halt the traversal. |
 
-<a name="Hierarchy+addNodeAsChildOfNode"></a>
+<a name="addNodeAsChildOfNode"></a>
 
-### hierarchy.addNodeAsChildOfNode(parentNode, childNode) ⇒ <code>Object</code>
+## addNodeAsChildOfNode(parentNode, childNode) ⇒ <code>Object</code>
 Add a child to a parent.
 
-**Kind**: instance method of [<code>Hierarchy</code>](#Hierarchy)
-**Returns**: <code>Object</code> - the child node.
+**Kind**: global function  
+**Returns**: <code>Object</code> - the child node.  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | parentNode | <code>Object</code> | the node in the hierarchy to which the child should be added |
 | childNode | <code>Object</code> | a node or tree |
 
-<a name="Hierarchy+getPathOfNode"></a>
+<a name="getPathOfNode"></a>
 
-### hierarchy.getPathOfNode(node) ⇒ <code>Object</code>
+## getPathOfNode(node) ⇒ <code>Object</code>
 Get the array of Nodes representing the path from the root to this Node (inclusive).
 
-**Kind**: instance method of [<code>Hierarchy</code>](#Hierarchy)
-**Returns**: <code>Object</code> - the array of Nodes representing the path from the root to this Node (inclusive).
+**Kind**: global function  
+**Returns**: <code>Object</code> - the array of Nodes representing the path from the root to this Node (inclusive).  
 
 | Param | Type |
 | --- | --- |
-| node | <code>Object</code> |
+| node | <code>Object</code> | 
 
-<a name="Hierarchy+getNamesOfNodePath"></a>
+<a name="getNamesOfNodePath"></a>
 
-### hierarchy.getNamesOfNodePath(node) ⇒ <code>Array.&lt;String&gt;</code>
+## getNamesOfNodePath(node) ⇒ <code>Array.&lt;String&gt;</code>
 Get the array of Node names representing the path from the root to this Node (inclusive).
 
-**Kind**: instance method of [<code>Hierarchy</code>](#Hierarchy)
-**Returns**: <code>Array.&lt;String&gt;</code> - the array of Strings representing the path from the root to this Node (inclusive).
+**Kind**: global function  
+**Returns**: <code>Array.&lt;String&gt;</code> - the array of Strings representing the path from the root to this Node (inclusive).  
 
 | Param | Type |
 | --- | --- |
-| node | <code>Object</code> |
+| node | <code>Object</code> | 
 
-<a name="Hierarchy+deleteNodeFromHierarchy"></a>
+<a name="deleteNodeFromHierarchy"></a>
 
-### hierarchy.deleteNodeFromHierarchy(node) ⇒ <code>Object</code>
+## deleteNodeFromHierarchy(node) ⇒ <code>Object</code>
 Drop the subtree starting at this node. Returns the node itself, which is now a root node.
 
-**Kind**: instance method of [<code>Hierarchy</code>](#Hierarchy)
-**Returns**: <code>Object</code> - node the node that just got dropped.
+**Kind**: global function  
+**Returns**: <code>Object</code> - node the node that just got dropped.  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | node | <code>Object</code> | the node in the hierarchy to drop. |
 
-<a name="Hierarchy+getTreeModel"></a>
+<a name="getTreeModel"></a>
 
-### hierarchy.getTreeModel() ⇒ <code>Object</code>
+## getTreeModel() ⇒ <code>Object</code>
 get the underlying TreeModel instance
 
-**Kind**: instance method of [<code>Hierarchy</code>](#Hierarchy)
-**Returns**: <code>Object</code> - the underlying TreeModel instance.
-<a name="Hierarchy+getNewNode"></a>
+**Kind**: global function  
+**Returns**: <code>Object</code> - the underlying TreeModel instance.  
+<a name="getNewNode"></a>
 
-### hierarchy.getNewNode(an)
+## getNewNode(paramsObj)
 Create Node (which is itself just a TreeModel)
 
-**Kind**: instance method of [<code>Hierarchy</code>](#Hierarchy)
+**Kind**: global function  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| an | <code>Object</code> | object which has a name and children |
+| paramsObj | <code>Object</code> | an object which has 'name' and 'children' properties |
+
