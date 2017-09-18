@@ -1,8 +1,8 @@
 {
   "name": "hierarchy-model",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A data model for a hierarchy of nodes, used by roles-hierarchy and permissions-hierarchy",
-  "main": "./distribution/hierarchy.min.js",
+  "main": "./distribution/hierarchy.js",
   "scripts": {
     "test": "NODE_CONFIG_DIR=test/config NODE_ENV=test mocha --require babel-register",
     "build": "WEBPACK_ENV=build webpack",
