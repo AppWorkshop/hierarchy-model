@@ -72,6 +72,7 @@ export default class Hierarchy {
   /**
    * Find the model for a node in the hierarchy, by name
    * @param {string} nodeName - the name of the node to find (i.e. 'name' property value)
+   * @param {object} [startNode] - the node in the hierarchy to start from
    * @returns {object} - the model of the node in the tree that matches
    */
   findNodeInHierarchy(nodeName, startNode) {
