@@ -124,14 +124,16 @@ export default class Hierarchy {
   getAllDescendantNodesAsArray(nodeName, startNode) {
     // find the node for the given node name
     let seniorNode = this._findNode(nodeName, startNode);
-    // get all the nodes under this one
-    let result = seniorNode.all({ strategy: 'breadth' }, function (node) {
-      return node.model.name !== nodeName;
-    }).map((item) => { // get the names of each node
-      return item.model.name;
-    });
-    this.logger.debug(`getAllDescendantNodesAsArray(${nodeName}) => returning ${JSON.stringify(result, null, 2)}`);
-    return result;
+    if (seniorNode) {
+      // get all the nodes under this one
+      let result = seniorNode.all({strategy: 'breadth'}, function (node) {
+        return node.model.name !== nodeName;
+      }).map((item) => { // get the names of each node
+        return item.model.name;
+      });
+      this.logger.debug(`getAllDescendantNodesAsArray(${nodeName}) => returning ${JSON.stringify(result, null, 2)}`);
+      return result;
+    }
   }
 
   /**
